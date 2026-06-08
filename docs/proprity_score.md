@@ -1,6 +1,6 @@
 # Task Prioritization Framework
 
-This document explains how a **decision function for task prioritization** under cognitive and temporal constraints, is implimented. It functions more like a sophisticated scheduling heuristic than a simple priority score.
+This document explains how a **decision function for task prioritization** under cognitive and temporal constraints, is implemented. It functions more like a sophisticated scheduling heuristic than a simple priority score.
 
 A basic linear weighted sum often fails here because variables interact in asymmetric, nonlinear ways—particularly around deadline pressure, necessity, and cognitive load. This system is designed to behave correctly under edge cases and align with effective human prioritization principles.
 
