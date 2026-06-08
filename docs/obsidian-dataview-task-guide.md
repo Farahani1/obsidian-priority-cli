@@ -103,6 +103,25 @@ Multiple stages:
 ```dataview
 WHERE t.stage = "todo" OR t.stage = "idea"
 ```
+### By Scope(location)
+
+Dataview gives you:
+```
+file.path
+file.folder
+file.name
+```
+
+For including subdirectories:
+```
+WHERE contains(file.path, "Projects/Home")
+```
+
+For Exact folder only (no subfolders):
+```
+WHERE file.folder = "Projects/Home"
+```
+
 
 ### By priority threshold
 
