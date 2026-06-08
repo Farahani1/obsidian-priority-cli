@@ -14,7 +14,7 @@ TABLE
   t.due AS "Due"
 FROM ""
 FLATTEN file.tasks AS t
-WHERE !t.completed AND t.stage = "idea" AND contains(file.path, "task_examples/holiday")
+WHERE !t.completed AND t.stage = "O" AND contains(file.path, "task_examples/holiday")
 SORT t.priority DESC
 ```
 
@@ -36,7 +36,7 @@ TABLE
   t.due AS "Due"
 FROM ""
 FLATTEN file.tasks AS t
-WHERE !t.completed AND t.stage = "todo" AND contains(file.path, "task_examples/holiday")
+WHERE !t.completed AND t.stage = "|O|" AND contains(file.path, "task_examples/holiday")
 SORT t.priority DESC
 ```
 

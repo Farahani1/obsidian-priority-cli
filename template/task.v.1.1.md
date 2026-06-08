@@ -2,7 +2,7 @@
 const title = await tp.system.prompt("Task title");
 
 const tags = await tp.system.prompt("Tags (space separated)");
-const stage = await tp.system.prompt("Stage");
+const stage = await tp.system.prompt("Stage ( idea: O, todo:|O|, priority: @, in-session: &)");
 
 const force = await tp.system.prompt("Force (1-5)");
 const load = await tp.system.prompt("Load (1-5)");
