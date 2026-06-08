@@ -1,10 +1,11 @@
+import argparse
 from decision.priority import process_vault
 
+
 if __name__ == "__main__":
-    your_vault_path = r"./tasks"   # Windows example
-    # your_vault_path = "/Users/yourname/vault"           # macOS / Linux example
+    parser = argparse.ArgumentParser(description="Update task priorities in Obsidian vault")
+    parser.add_argument("vault_path", help="Path to your Obsidian vault")
+    parser.add_argument("--reset", action="store_true", help="Recompute priorities for ALL tasks (overwrite existing)")
+    args = parser.parse_args()
     
-    if "your/obsidian/vault" in your_vault_path or not your_vault_path:
-        print("⚠️  Please edit the script and set your actual Obsidian vault path!")
-    else:
-        process_vault(your_vault_path)
+    process_vault(args.vault_path, reset=args.reset)

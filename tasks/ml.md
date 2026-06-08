@@ -1,1 +1,1 @@
-- [ ] clean .ipynb files #task #eyeH, #office, #home, [id:: 68ri] [title:: clean .ipynb files] [stage:: todo] [force:: 1] [load:: 3] [necessity:: 1] [value:: 4] [due:: ] [priority:: 0.0]
+- [ ] clean .ipynb files #task #eyeH, #office, #home, [id:: 68ri] [title:: clean .ipynb files] [stage:: todo] [force:: 1] [load:: 3] [necessity:: 2] [value:: 4] [due:: ] [priority:: 0.36]
