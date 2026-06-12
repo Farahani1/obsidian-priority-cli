@@ -1,2 +1,2 @@
 - [ ] buy foods #task #shop [id:: ctpy] [title:: buy foods]  [force:: 2] [load:: 4] [necessity:: 4] [value:: 3] [due:: ] [status:: @] [priority:: 80.65]
-- [ ] repair the car #task #house [id:: dkfr] [title:: repair the car]  [force:: ] [load:: 5] [necessity:: 1] [value:: 2] [due:: ] [status:: &] [priority:: 8.19]
+- [ ] repair the car #task #home [id:: dkfr] [title:: repair the car]  [force:: ] [load:: 5] [necessity:: 1] [value:: 2] [due:: ] [status:: &] [priority:: 8.19]
