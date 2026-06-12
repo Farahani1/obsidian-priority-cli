@@ -5,14 +5,14 @@ A practical reference for querying an inline-metadata task system in [Obsidian](
 This guide assumes your tasks are stored as Obsidian checklist items with inline fields, following a structure similar to:
 
 ```
-- [ ] Buy groceries [id:: a1b2] [stage:: todo] [priority:: 0.45] [value:: 3] [load:: 1] [due:: 2024-06-15] #home #errands
+- [ ] Buy groceries #house #errands [id:: a1b2] [priority:: 0.45] [load:: 1] [value:: 3] [due:: 2024-06-15] [status:: todo]
 ```
 
 ---
 
 ## Table of Contents
 
-1. [Task Field Reference](#task-field-reference)
+1. [Task Field Reference](#task-field-reference) [priority:: 0.0]
 2. [Master Query Template](#master-query-template)
 3. [Filtering](#filtering)
 4. [Sorting](#sorting)
@@ -51,7 +51,7 @@ TABLE
   t.id AS "ID",
   t.title AS "Task",
   t.stage AS "Stage",
-  join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags",
+join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags", [priority:: 0.0]
   t.force AS "F",
   t.load AS "L",
   t.necessity AS "N",
@@ -328,6 +328,6 @@ Each task must be a single line. Inline fields on a continuation line will not b
 
 ## Further Reading
 
-- [Dataview documentation](https://blacksmithgu.github.io/obsidian-dataview/)
-- [Dataview inline fields reference](https://blacksmithgu.github.io/obsidian-dataview/data-annotation/)
-- [Obsidian community plugins](https://obsidian.md/plugins)
+- [Dataview documentation](https://blacksmithgu.github.io/obsidian-dataview/) 
+- [Dataview inline fields reference](https://blacksmithgu.github.io/obsidian-dataview/data-annotation/) 
+- [Obsidian community plugins](https://obsidian.md/plugins) 

@@ -1,0 +1,43 @@
+{
+  "vault_path": "./",
+
+  "task": {
+    "tag": "#task",
+    "strict_mode": true
+  },
+
+  "fields": {
+    "required": ["id", "title"],
+    "optional": [
+      "stage", "priority",
+      "force", "load", "necessity", "value", "due"
+    ],
+    "allowed": [
+      "id", "title", "stage", "priority",
+      "force", "load", "necessity", "value", "due"
+    ]
+  },
+
+  "normalize": {
+    "auto_run": true,
+    "enforce_order": true,
+    "remove_duplicates": true
+  },
+
+  "doctor": {
+    "auto_run": true,
+    "fail_on_error": false
+  },
+
+  "scores": {
+    "score_pr": {
+      "enabled": true
+    },
+    "score_2": {
+      "enabled": false
+    },
+    "score_3": {
+      "enabled": false
+    }
+  }
+}

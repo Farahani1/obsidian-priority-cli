@@ -14,5 +14,5 @@ const id = Date.now().toString(36).slice(-4);
 
 const tag_str = tags.split(" ").map(t => "#" + t).join(" ");
 
-tR = `- [ ] ${title} #task ${tag_str} [id:: ${id}] [title:: ${title}] [stage:: ${stage}] [force:: ${force}] [load:: ${load}] [necessity:: ${necessity}] [value:: ${value}] [due:: ]`;
+tR = `- [ ] ${title} #task ${tag_str} [id:: ${id}] [title:: ${title}] [stage:: ${stage}] [force:: ${force}] [load:: ${load}] [necessity:: ${necessity}] [value:: ${value}] [due:: ]`; [priority:: 0.0]
 %>

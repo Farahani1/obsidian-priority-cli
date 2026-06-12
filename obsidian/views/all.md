@@ -5,7 +5,7 @@ TABLE
   t.id AS "ID",
   t.title AS "Task",
   t.stage AS "Stage",
-  join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags",
+join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags", [priority:: 0.0]
   t.force AS "F",
   t.load AS "L",
   t.necessity AS "N",
@@ -25,7 +25,7 @@ TABLE
   t.id AS "ID",
   t.title AS "Task",
   t.stage AS "Stage",
-  join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags",
+join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags", [priority:: 0.0]
   t.force AS "F",
   t.load AS "L",
   t.necessity AS "N",
@@ -46,7 +46,7 @@ TABLE
   t.id AS "ID",
   t.title AS "Task",
   t.stage AS "Stage",
-  join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags",
+join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags", [priority:: 0.0]
   t.force AS "F",
   t.load AS "L",
   t.necessity AS "N",
@@ -66,7 +66,7 @@ TABLE
   t.id AS "ID",
   t.title AS "Task",
   t.stage AS "Stage",
-  join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags",
+join(filter(t.tags, (x) => x != "#task"), " ") AS "Tags", [priority:: 0.0]
   t.force AS "F",
   t.load AS "L",
   t.necessity AS "N",
