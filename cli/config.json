@@ -9,11 +9,11 @@
   "fields": {
     "required": ["id", "title"],
     "optional": [
-      "stage", "priority",
+      "status", "priority",
       "force", "load", "necessity", "value", "due"
     ],
     "allowed": [
-      "id", "title", "stage", "priority",
+      "id", "title", "status", "priority",
       "force", "load", "necessity", "value", "due"
     ]
   },
