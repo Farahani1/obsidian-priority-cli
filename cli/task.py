@@ -1,9 +1,12 @@
 import sys
 from package import tag_ops
-from package import normalize_ops, score_pr
+from package import normalize_ops, score_pr, history_ops
 from package.config import load_config
 from package import doctor_ops, field_ops, help
 
+def snapshot():
+    command_str = " ".join(sys.argv)
+    history_ops.before_change(command_str)
 
 def preflight():
     config = load_config()
@@ -31,12 +34,14 @@ def main():
     
 
     if args[0] == "tag":
+        snapshot()
         if args[1] == "mv":
             tag_ops.rename_tag(args[2], args[3])
         elif args[1] == "rm":
             tag_ops.remove_tag(args[2])
 
     elif args[0] == "field":
+        snapshot()
         if args[1] == "mv":
             field_ops.rename_field(args[2], args[3])
         elif args[1] == "add":
@@ -47,6 +52,7 @@ def main():
             field_ops.update_field(args[2], args[3], args[4])
 
     elif args[0] == "packages":
+        snapshot()
         if args[1] == "score_pr":
             reset = "--reset" in args
             score_pr.run(reset=reset)
@@ -61,6 +67,7 @@ def main():
             print('Unknow score method')
 
     elif args[0] == "normalize":
+        snapshot()
         normalize_ops.normalize_all()
 
     else:
