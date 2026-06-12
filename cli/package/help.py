@@ -1,52 +1,59 @@
+import io
+import sys
+
+# Set stdout to UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 def show_help():
     help_text = """
 TASKS CLI — Local Task Refactoring Engine
 ========================================
 
-OVERVIEW
---------
-This tool performs batch operations on your Obsidian task system.
-It assumes tasks follow a structured inline-field format:
-
+OVERVIEW -DESIGN PHILOSOPHY
+---------------------------
+This tool do batch operations on your (structured inline-field) Obsidian tasks:
     - [ ] Task title #task [key:: value] [key:: value]
 
-The system enforces a canonical format via:
-    - doctor     → detect problems
-    - normalize  → fix structure
+Processing Markdown as structured data, hopefully gives you:
+    - consistency > flexibility
+    - explicit schema > implicit assumptions
+    
+If things break:
+    → run doctor
+    → then normalize
 
-These may run automatically based on config.
 
 
-BASIC COMMANDS
+COMMANDS
 --------------
 
-# --- TAG OPERATIONS ---
-tasks tag mv <old-tag> <new-tag>
+# --- TAG OPERATIONS COMMANDS ---
+task tag mv <old-tag> <new-tag>
     Rename a tag across all tasks
 
-tasks tag rm <tag>
+task tag rm <tag>
     Remove a tag from all tasks
 
 
-# --- FIELD OPERATIONS ---
-tasks field mv <old-name> <new-name>
+# --- FIELD OPERATIONS COMMANDS ---
+task field mv <old-name> <new-name>
     Rename a field key
 
-tasks field add <name> [default-value]
+task field add <name> [default-value]
     Add field to tasks that don't have it
 
-tasks field update <name> <old> <new>
+task field update <name> <old> <new>
     Replace a field value globally
 
 
 # --- SYSTEM COMMANDS ---
-tasks normalize
+task normalize
     Enforce canonical format:
         - consistent spacing
         - ordered fields
         - remove duplicates
 
-tasks doctor
+task doctor
     Detect problems:
         - missing required fields
         - duplicate fields
@@ -54,8 +61,8 @@ tasks doctor
         - malformed syntax
 
 
-# --- COMPUTATION ---
-tasks packages score_pr [--reset]
+# --- COMPUTATION COMMANDS ---
+task packages score_pr [--reset]
     Compute priority score using:
         load, force, necessity, value, due
 
@@ -63,69 +70,27 @@ tasks packages score_pr [--reset]
     default → only fill missing priorities
 
 
-EXECUTION MODEL
----------------
-Before most commands:
-    1. doctor runs (validation)
-    2. normalize runs (optional, config-controlled)
+CONFIGURATION (IMPORTANT)
+-------------------------
 
-This ensures system consistency.
-
-
-TASK FORMAT (IMPORTANT)
-----------------------
+#  --- TASK FORMAT --- 
 Canonical structure:
-
     - [ ] Title #task #tag1 #tag2
       [id:: ...] [title:: ...] [stage:: ...] [priority:: ...]
-
 Rules:
     - Use EXACT syntax: [key:: value]
     - No duplicate fields
     - No unknown fields (unless allowed in config)
     - Tags must include #task to be processed
 
-
-CONFIGURATION
--------------
-Location:
-    _task/_config/config.json
-
+    
+# --- CONFIG FILE ---
+File location: ./cli/config.json
 Key responsibilities:
     - define vault path
     - define schema (allowed/required fields)
     - control auto behaviors (doctor, normalize)
-    - enable/disable scoring modules
-
-
-COMMON WORKFLOWS
-----------------
-
-# Fix system drift
-tasks normalize
-
-# Check problems
-tasks doctor
-
-# Recompute priorities
-tasks packages score_pr --reset
-
-# Rename a field globally
-tasks field mv urgency priority
-
-
-DESIGN PHILOSOPHY
------------------
-This system treats Markdown as structured data.
-
-That means:
-    - consistency > flexibility
-    - explicit schema > implicit assumptions
-
-If things break:
-    → run doctor
-    → then normalize
-
+    - enable/disable customaizable computational scoring modules
 
 ========================================
 """
