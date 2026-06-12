@@ -1,8 +1,8 @@
 import sys
-from cli.packages import tag_ops
-from cli.packages import normalize_ops, score_pr
-from cli.packages.config import load_config
-from cli.packages import doctor_ops, field_ops, help
+from package import tag_ops
+from package import normalize_ops, score_pr
+from package.config import load_config
+from package import doctor_ops, field_ops, help
 
 
 def preflight():
@@ -19,7 +19,6 @@ def preflight():
     # --- Normalize ---
     if config["normalize"]["auto_run"]:
         normalize_ops.normalize_all()
-
 
 def main():
     # preflight()
@@ -69,3 +68,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+

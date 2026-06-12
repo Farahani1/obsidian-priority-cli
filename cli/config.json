@@ -1,5 +1,5 @@
 {
-  "vault_path": "./",
+  "vault_path": "../obsidian",
 
   "task": {
     "tag": "#task",
