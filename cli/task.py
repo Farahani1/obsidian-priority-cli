@@ -21,7 +21,7 @@ def preflight():
         normalize_ops.normalize_all()
 
 def main():
-    # preflight()
+    preflight()
 
     args = sys.argv[1:]
 
