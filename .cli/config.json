@@ -1,7 +1,6 @@
 {
-  "vault_path": "./obsidian",
-
-  "log_dir": "./cli",
+  "vault_path": "..",
+  "log_dir": ".",
 
   "task": {
     "tag": "#task",
@@ -10,14 +9,8 @@
 
   "fields": {
     "required": ["id", "title"],
-    "optional": [
-      "status", "priority",
-      "force", "load", "necessity", "value", "due"
-    ],
-    "allowed": [
-      "id", "title", "status", "priority",
-      "force", "load", "necessity", "value", "due"
-    ]
+    "optional": ["status", "priority", "force", "load", "necessity", "value", "due"],
+    "allowed": ["id", "title", "status", "priority", "force", "load", "necessity", "value", "due"]
   },
 
   "normalize": {

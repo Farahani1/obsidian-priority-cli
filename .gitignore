@@ -1,4 +1,5 @@
 .obsidian/
+obsidian/.git/
 prompts/
 *.dlme*
 # Byte-compiled / optimized / DLL files
