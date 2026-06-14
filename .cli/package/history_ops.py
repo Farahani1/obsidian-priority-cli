@@ -4,94 +4,89 @@ from pathlib import Path
 from datetime import datetime
 from .config import load_config
 
-config = load_config()
 
-LOG_DIR = Path(config['log_dir'])
-LOG_FILE = LOG_DIR / "log.json"
+def cfg():
+    return load_config()
 
 
-# -----------------------------
-# GIT HELPERS
-# -----------------------------
+def log_file() -> Path:
+    return cfg().log_file
 
-def run_git(args, cwd):
-    return subprocess.run(
-        ["git"] + args,
+
+def vault_path() -> Path:
+    return cfg().vault_path
+
+
+def run_git(args, cwd=None):
+    cwd = cwd or vault_path()
+
+    result = subprocess.run(
+        ["git", *args],
         cwd=cwd,
         capture_output=True,
         text=True
     )
 
-
-def get_head_commit(vault_path):
-    result = run_git(["rev-parse", "HEAD"], vault_path)
     if result.returncode != 0:
-        return None
+        raise RuntimeError(
+            f"Git failed: git {' '.join(args)}\n"
+            f"cwd: {cwd}\n"
+            f"stdout:\n{result.stdout}\n"
+            f"stderr:\n{result.stderr}"
+        )
+
+    return result
+
+
+def get_head_commit():
+    result = run_git(["rev-parse", "HEAD"])
     return result.stdout.strip()
 
 
-# -----------------------------
-# INIT
-# -----------------------------
+def ensure_repo():
+    vault = vault_path()
 
-def ensure_repo(vault_path):
-    vault = Path(vault_path)
-    git_dir = vault / ".git"
-
-    if not git_dir.exists():
+    if not (vault / ".git").exists():
         print("[INIT] Initializing git repository...")
-        run_git(["init"], vault_path)
-        run_git(["add", "."], vault_path)
-        run_git(["commit", "-m", "Initial snapshot"], vault_path)
+        run_git(["init"])
+        run_git(["add", "."])
+        run_git(["commit", "--allow-empty", "-m", "Initial snapshot"])
 
-    LOG_DIR.mkdir(exist_ok=True)
+    lf = log_file()
+    lf.parent.mkdir(parents=True, exist_ok=True)
 
-    if not LOG_FILE.exists():
-        with open(LOG_FILE, "w") as f:
-            json.dump([], f)
+    if not lf.exists():
+        lf.write_text("[]", encoding="utf-8")
 
-
-# -----------------------------
-# LOGGING
-# -----------------------------
 
 def append_log(entry):
-    if LOG_FILE.exists():
-        with open(LOG_FILE, "r") as f:
-            data = json.load(f)
+    lf = log_file()
+
+    if lf.exists():
+        data = json.loads(lf.read_text(encoding="utf-8"))
     else:
         data = []
 
     data.append(entry)
+    lf.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
-    with open(LOG_FILE, "w") as f:
-        json.dump(data, f, indent=2)
-
-
-# -----------------------------
-# SNAPSHOT BEFORE CHANGE
-# -----------------------------
 
 def before_change(command_str):
-    config = load_config()
-    vault_path = Path(config["vault_path"]).resolve()
+    ensure_repo()
 
-    ensure_repo(vault_path)
+    run_git(["add", "."])
 
-    # Stage changes
-    run_git(["add", "."], vault_path)
+    status = run_git(["status", "--porcelain"])
 
-    # Commit
-    msg = f"task: {command_str}"
-    result = run_git(["commit", "-m", msg], vault_path)
-
-    # If nothing to commit → skip
-    if "nothing to commit" in result.stdout.lower():
-        commit_id = get_head_commit(vault_path)
+    if status.stdout.strip():
+        run_git(["commit", "-m", f"task: {command_str}"])
     else:
-        commit_id = get_head_commit(vault_path)
+        # For your current before-change model, this is optional.
+        # I would keep it OFF to avoid noisy history.
+        pass
 
-    # Log
+    commit_id = get_head_commit()
+
     append_log({
         "change_id": commit_id,
         "command": command_str,
@@ -101,46 +96,26 @@ def before_change(command_str):
     return commit_id
 
 
-# -----------------------------
-# LOG VIEW
-# -----------------------------
-
-def show_log(limit=10):
-    if not LOG_FILE.exists():
-        print("No history found.")
-        return
-
-    with open(LOG_FILE, "r") as f:
-        data = json.load(f)
-
-    for entry in reversed(data[-limit:]):
-        cid = entry["change_id"][:7]
-        print(f"{entry['timestamp']} | {cid} | {entry['command']}")
-
-
-# -----------------------------
-# UNDO
-# -----------------------------
-
 def undo(change_id=None):
-    config = load_config()
-    vault_path = Path(config["vault_path"]).resolve()
+    ensure_repo()
 
     if change_id:
         print(f"[UNDO] Reset to {change_id}")
-        run_git(["reset", "--hard", change_id], vault_path)
-        return
+        run_git(["reset", "--hard", change_id])
+    else:
+        print("[UNDO] Reset working tree to last snapshot")
+        run_git(["reset", "--hard", "HEAD"])
 
-    print("[UNDO] Reverting last change...")
-    run_git(["reset", "--hard", "HEAD~1"], vault_path)
+    run_git(["clean", "-fd"])
 
-    # Update log
-    if LOG_FILE.exists():
-        with open(LOG_FILE, "r") as f:
-            data = json.load(f)
+    lf = log_file()
 
-        if data:
+    if lf.exists():
+        data = json.loads(lf.read_text(encoding="utf-8"))
+
+        if change_id:
+            data = [x for x in data if x.get("change_id") != change_id]
+        elif data:
             data.pop()
 
-        with open(LOG_FILE, "w") as f:
-            json.dump(data, f, indent=2)
+        lf.write_text(json.dumps(data, indent=2), encoding="utf-8")

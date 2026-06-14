@@ -69,7 +69,11 @@ def main():
     elif args[0] == "normalize":
         snapshot()
         normalize_ops.normalize_all()
-
+        
+    elif args[0] == "undo":
+        change_id = args[1] if len(args) > 1 else None
+        history_ops.undo(change_id)
+        
     else:
         print("Unknown command")
     
