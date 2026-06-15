@@ -1,4 +1,4 @@
-# Task Priority
+# obsidian-priority-cli
 
 A local-first CLI for managing and refactoring structured Markdown tasks inside a dedicated task directory in an Obsidian vault.
 
