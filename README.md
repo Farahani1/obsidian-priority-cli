@@ -1,6 +1,9 @@
-# Task Priority
+# obsidian-priority-cli
 
 A local-first CLI for managing and refactoring structured Markdown tasks inside a dedicated task directory in an Obsidian vault.
+
+> **Warning**
+> The version-control and undo behavior of this CLI is still experimental and may contain bugs. Before using it on real tasks, make a backup copy of your task directory or test it on a disposable copy first.
 
 My motivation for creating this project was that, after an internet blackout in my country, I lost access to the task-management platforms I used to start my day, so I decided to build a local alternative.
 
@@ -135,10 +138,6 @@ git log --oneline
 Additional documentation:
 
 - [CLI Guide](docs/cli.md) — command flow, directory model, configuration, task format, and version-control behavior.
-
-## Privacy note
-
-The documentation has been written in generic terms and should not include chat transcripts, private task contents, personal names, or machine-specific paths.
 
 ## Status
 
